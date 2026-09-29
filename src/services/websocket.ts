@@ -53,7 +53,7 @@ class UrbanEyeWebSocketService {
 
     try {
       this.setStatus(this.reconnectAttempts > 0 ? 'RECONNECTING' : 'CONNECTING');
-      this.socket = new WebSocket(url);
+      this.socket = new WebSocket(targetUrl);
 
       this.socket.onopen = () => {
         this.reconnectAttempts = 0;
