@@ -82,6 +82,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+async def root():
+    return {
+        "status": "online",
+        "service": "URBANEYE Intelligence Platform API",
+        "health": "/health",
+        "docs": "/docs"
+    }
+
 @app.get("/health")
 async def health_check():
     fleet_data = pmpml_service.get_current_fleet()

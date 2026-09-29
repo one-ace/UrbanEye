@@ -35,21 +35,46 @@ body {
 
 /* MapLibre Overrides for Dark Command Theme */
 .maplibregl-popup-content {
-  background-color: #0f172a !important;
+  background-color: #090d16 !important;
   color: #f1f5f9 !important;
   border: 1px solid #334155 !important;
-  border-radius: 8px !important;
-  padding: 12px 14px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 10px !important;
+  padding: 10px 12px !important;
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.8) !important;
+}
+
+.maplibregl-popup-close-button {
+  color: #94a3b8 !important;
+  font-size: 14px !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+}
+
+.maplibregl-popup-close-button:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
   border-top-color: #334155 !important;
 }
 
+.maplibregl-popup-anchor-top .maplibregl-popup-tip {
+  border-bottom-color: #334155 !important;
+}
+
+.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+  border-right-color: #334155 !important;
+}
+
+.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+  border-left-color: #334155 !important;
+}
+
 .maplibregl-ctrl-group {
-  background: #0f172a !important;
+  background: #090d16 !important;
   border: 1px solid #1e293b !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
 }
 
 .maplibregl-ctrl-group button {
@@ -59,6 +84,18 @@ body {
 .maplibregl-ctrl-group button:hover {
   background-color: #1e293b !important;
 }
+
+.maplibregl-ctrl-attrib {
+  background-color: rgba(9, 13, 22, 0.85) !important;
+  color: #94a3b8 !important;
+  font-size: 10px !important;
+  font-family: monospace !important;
+}
+
+.maplibregl-ctrl-attrib a {
+  color: #38bdf8 !important;
+}
+
 
 /* Utility Animations */
 @keyframes radar-sweep {

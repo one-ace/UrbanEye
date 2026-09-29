@@ -80,6 +80,74 @@ export const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose }) => {
             </div>
           </div>
 
+          {/* Municipal Incident Operations Card */}
+          <div className="mt-4 bg-[#090d16] border border-slate-800 rounded-xl p-3.5 font-mono text-xs shadow-md">
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-white uppercase text-[11px] tracking-wide">
+                  {event.event_type}
+                </span>
+                <span className={cn(
+                  "px-2 py-0.5 rounded text-[10px] font-bold uppercase",
+                  (prioritized.priority_level === 'CRITICAL' || event.severity === 'CRITICAL') && "bg-rose-500/20 text-rose-400 border border-rose-500/30",
+                  (prioritized.priority_level === 'HIGH' || event.severity === 'HIGH') && "bg-amber-500/20 text-amber-400 border border-amber-500/30",
+                  (prioritized.priority_level === 'MEDIUM' || event.severity === 'MEDIUM') && "bg-blue-500/20 text-blue-400 border border-blue-500/30",
+                  (prioritized.priority_level === 'LOW' || event.severity === 'LOW') && "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+                )}>
+                  {prioritized.priority_level || event.severity} PRIORITY
+                </span>
+              </div>
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700 uppercase">
+                {event.status}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-300">
+              <div className="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+                <span className="text-slate-500 text-[9px] uppercase block">Location / Corridor</span>
+                <span className="text-white font-semibold truncate block mt-0.5">
+                  {event.location_name || 'Pune Municipal Road'}
+                </span>
+                <span className="text-blue-400 text-[10px] block mt-0.5">
+                  Route {event.route_id}
+                </span>
+              </div>
+
+              <div className="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+                <span className="text-slate-500 text-[9px] uppercase block">Detected At</span>
+                <span className="text-white font-semibold block mt-0.5">
+                  {new Date(event.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                </span>
+                <span className="text-slate-400 text-[10px] block mt-0.5">
+                  Confidence: <strong className="text-cyan-400">{(event.confidence * 100).toFixed(0)}%</strong>
+                </span>
+              </div>
+
+              <div className="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+                <span className="text-slate-500 text-[9px] uppercase block">Corroboration</span>
+                <span className="text-emerald-400 font-bold block mt-0.5">
+                  {event.corroboration_count} {event.corroboration_count === 1 ? 'Bus Detection' : 'Buses Verified'}
+                </span>
+                <span className="text-slate-400 text-[10px] block mt-0.5">
+                  Primary Node: #{event.bus_id}
+                </span>
+              </div>
+
+              <div className="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+                <span className="text-slate-500 text-[9px] uppercase block">Recommended Action</span>
+                <span className="text-amber-300 font-semibold block mt-0.5 text-[10px] leading-tight">
+                  {prioritized.recommended_action || (
+                    event.event_type === 'POTHOLE' ? 'Inspect road segment & deploy patch' :
+                    event.event_type === 'WATERLOGGING' ? 'Clear storm water drains & deploy pump' :
+                    event.event_type === 'DAMAGED_SIGN' ? 'Re-erect & align municipal sign' :
+                    'Dispatch traffic patrol'
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
+
+
           {/* Evidence Camera Image with AI Bounding Box */}
           <div className="mt-5 relative rounded-xl overflow-hidden border border-slate-800 bg-black">
             <img
