@@ -7,6 +7,18 @@ type EventCallback = (event: UrbanEyeEvent) => void;
 type FleetCallback = (fleetData: { status: string, last_update: number, vehicles: BusTelemetry[] }) => void;
 type StatusCallback = (status: ConnectionStatus) => void;
 
+const PROD_WS_URL = 'wss://urbaneye-backend-by2p.onrender.com/ws/live';
+
+const getDefaultWsUrl = (): string => {
+  if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_WS_URL) {
+    return import.meta.env.VITE_WS_URL;
+  }
+  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+    return 'ws://localhost:8000/ws/live';
+  }
+  return PROD_WS_URL;
+};
+
 class UrbanEyeWebSocketService {
   private socket: WebSocket | null = null;
   private eventListeners: Set<EventCallback> = new Set();
@@ -18,11 +30,12 @@ class UrbanEyeWebSocketService {
   private readonly baseReconnectDelayMs = 1000;
   private readonly maxReconnectDelayMs = 16000;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
-  private serverUrl: string = 'ws://localhost:8000/ws/live';
+  private serverUrl: string = getDefaultWsUrl();
   private isExplicitDisconnect: boolean = false;
 
-  public connect(url: string = 'ws://localhost:8000/ws/live'): void {
-    this.serverUrl = url;
+  public connect(url?: string): void {
+    const targetUrl = url || getDefaultWsUrl();
+    this.serverUrl = targetUrl;
     this.isExplicitDisconnect = false;
 
     if (this.currentStatus === 'DEMO') {

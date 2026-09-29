@@ -2,7 +2,13 @@ import { UrbanEyeEvent, BusTelemetry, BusRoute, WardSummary, SystemKPIs, EventSt
 import { MOCK_EVENTS, MOCK_WARDS, MOCK_SYSTEM_KPIS } from './mockData';
 import { SEEDED_PUNE_PRIORITY_ROUTES } from './puneRoutes';
 
-const API_BASE_URL = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL) || 'http://localhost:8000/api/v1';
+const PROD_BACKEND_URL = 'https://urbaneye-backend-by2p.onrender.com/api/v1';
+
+const API_BASE_URL =
+  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL) ||
+  (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:8000/api/v1'
+    : PROD_BACKEND_URL);
 
 export class UrbanEyeApiService {
   private static isLiveBackendAvailable: boolean = false;
